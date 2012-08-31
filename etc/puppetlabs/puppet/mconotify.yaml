@@ -1,0 +1,3 @@
+---
+:mcoconfig: /tmp/client.cfg
+:mcotimeout: 5
