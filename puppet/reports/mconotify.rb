@@ -20,7 +20,7 @@ DESC
 
   def process
     notifystuff = []
-    Puppet.notice "MCONOTIFY: CONFIG:\n\n#{CONFIG.inspect}\n\n" if MCO_DEBUG
+    Puppet.notice "MCONOTIFY: CONFIG:#{CONFIG.inspect}\n\n" if MCO_DEBUG
 
     if self.status == 'changed' 
       begin
