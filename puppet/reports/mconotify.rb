@@ -27,8 +27,10 @@ DESC
         self.resource_statuses.each do |theresource,resource_status|
           matching_tags=resource_status.tags.grep(/mconotify/) 
           if resource_status.changed and ! resource_status.failed and ! resource_status.skipped and ! matching_tags.empty?
-            notifystuff << matching_tags
-            Puppet.notice "MCONOTIFY: Added mconotify tag #{matching_tags}"
+            matching_tags.each do |tag|
+              notifystuff << tag unless notifystuff.member?(tag)
+            end
+            Puppet.notice "MCONOTIFY: Added mconotify tag #{matching_tags.class}"
           end
         end
         Puppet.notice "MCONOTIFY: End of tag matching\n" if MCO_DEBUG
@@ -41,13 +43,13 @@ DESC
       classfilter=[]
 
       notifystuff.each do |filter|
-        if filter.to_s =~ /:node:/
+        if filter.to_s =~ /:-node:-/
           Puppet.notice "MCONOTIFY: matched #{filter} to a node\n"  if MCO_DEBUG
-          nodefilter << "/#{filter.to_s.split(':')[2]}/"  if MCO_DEBUG
+          nodefilter << "/#{filter.to_s.split(':-')[2]}/"  if MCO_DEBUG
         end
-        if filter.to_s =~ /:class:/
+        if filter.to_s =~ /:-class:-/
           Puppet.notice "MCONOTIFY: matched #{filter} to a class\n"  if MCO_DEBUG
-          classfilter << "/#{filter.to_s.split(':')[2]}/"  if MCO_DEBUG
+          classfilter << "/#{filter.to_s.split(':-')[2]}/"  if MCO_DEBUG
         end
       end
 
