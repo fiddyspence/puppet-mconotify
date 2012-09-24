@@ -20,7 +20,7 @@ DESC
 
   def process
     notifystuff = []
-    Puppet.notice "MCONOTIFY #{self.name}: CONFIG:#{CONFIG.inspect}\n\n" if MCO_DEBUG
+    Puppet.notice "MCONOTIFY #{self.name}: CONFIG:#{CONFIG.inspect}" if MCO_DEBUG
 
     if self.status == 'changed' 
       begin
@@ -33,7 +33,7 @@ DESC
             Puppet.notice "MCONOTIFY #{self.name}: Added mconotify tag #{matching_tags}"
           end
         end
-        Puppet.notice "MCONOTIFY #{self.name}: End of tag matching\n" if MCO_DEBUG
+        Puppet.notice "MCONOTIFY #{self.name}: End of tag matching" if MCO_DEBUG
       rescue => cow
         Puppet.notice "MCONOTIFY #{self.name}: couldn't output resource statuses #{cow}" if MCO_DEBUG
       end
@@ -44,16 +44,16 @@ DESC
 
       notifystuff.each do |filter|
         if filter.to_s =~ /:-node:-/
-          Puppet.notice "MCONOTIFY #{self.name}: matched #{filter} to a node\n"  if MCO_DEBUG
+          Puppet.notice "MCONOTIFY #{self.name}: matched #{filter} to a node"  if MCO_DEBUG
           nodefilter << "#{filter.to_s.split(':-')[2]}"  if MCO_DEBUG
         end
         if filter.to_s =~ /:-class:-/
-          Puppet.notice "MCONOTIFY #{self.name}: matched #{filter} to a class\n"  if MCO_DEBUG
+          Puppet.notice "MCONOTIFY #{self.name}: matched #{filter} to a class"  if MCO_DEBUG
           classfilter << "#{filter.to_s.split(':-')[2]}"  if MCO_DEBUG
         end
       end
 
-      Puppet.notice "MCONOTIFY #{self.name}: Filters: node #{nodefilter.count} class #{classfilter.count}\n"  if MCO_DEBUG
+      Puppet.notice "MCONOTIFY #{self.name}: Filters: node #{nodefilter.count} class #{classfilter.count}"  if MCO_DEBUG
 
       if nodefilter.count > 0
 
