@@ -1,5 +1,3 @@
-require 'puppet'
-require 'yaml'
 require 'mcollective'
 
 Puppet::Reports.register_report(:mconotify) do
@@ -62,7 +60,8 @@ DESC
         Puppet.notice "MCONOTIFY #{self.name}: #{thefilter}"
         svcs = MCollective::RPC::Client.new("puppetd", :configfile => MCO_CONFIG, :options => {:verbose=>false, :progress_bar=>false , :timeout=> MCO_TIMEOUT, :mcollective_limit_targets=>false, :config=> MCO_CONFIG, :filter=>{"cf_class"=>[], "agent"=>["puppetd"], "identity"=>[thefilter], "fact"=>factfilter}, :collective=>MCO_COLLECTIVE, :disctimeout=>2} )
 
-        svcs.runonce(:forcerun=> true)
+# updating with ':process_results => false' per RIP
+        svcs.runonce(:forcerun=> true, :process_results => false)
         svcs.disconnect
 
       end
@@ -74,7 +73,8 @@ DESC
 
         svcs = MCollective::RPC::Client.new("puppetd", :configfile => MCO_CONFIG, :options => {:verbose=>false, :progress_bar=>false , :timeout=> MCO_TIMEOUT, :mcollective_limit_targets=>false, :config=> MCO_CONFIG, :filter=>{"cf_class"=>[thefilter], "agent"=>["puppetd"], "identity"=>[], "fact"=>factfilter}, :collective=>MCO_COLLECTIVE, :disctimeout=>2} )
 
-        svcs.runonce(:forcerun=> true)
+# updating with ':process_results => false' per RIP
+        svcs.runonce(:forcerun=> true, :process_results => false)
         svcs.disconnect
       end
     end
