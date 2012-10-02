@@ -41,13 +41,13 @@ DESC
       classfilter=[]
 
       notifystuff.each do |filter|
-        if filter.to_s =~ /:-node:-/
+        if filter.to_s =~ /--node--/
           Puppet.notice "MCONOTIFY #{self.name}: matched #{filter} to a node"  if MCO_DEBUG
-          nodefilter << "#{filter.to_s.split(':-')[2]}"  if MCO_DEBUG
+          nodefilter << "#{filter.to_s.split('--')[2]}"  if MCO_DEBUG
         end
-        if filter.to_s =~ /:-class:-/
+        if filter.to_s =~ /  class  /
           Puppet.notice "MCONOTIFY #{self.name}: matched #{filter} to a class"  if MCO_DEBUG
-          classfilter << "#{filter.to_s.split(':-')[2]}"  if MCO_DEBUG
+          classfilter << "#{filter.to_s.split('--')[2]}"  if MCO_DEBUG
         end
       end
 

@@ -6,13 +6,11 @@ Consider this resource definition:
 
   file { '/tmp/testfile':
     ensure => file,
-    tag  => ['mconotify:-class:-theclass','mconotify:-node:-ibroketheinternet.co.uk'],
+    tag  => ['mconotify--class--theclass','mconotify--node--ibroketheinternet.co.uk'],
     source => '/etc/passwd',
   }
 
 When processing the agent report on the Puppet master, the mconotify report code will examine the tags on each resource in the report.  If the report has the status 'changed' and a resource that is appropriately tagged in the report (i.e. with 'mconotify:something:somethingelse') has also changed, then a mco client with appropriate filters will be built and a message sent to the collective.
-
-Note: the tag delimiter is a bit shit - the tagging code uses the following regex /^\w[-\w:.]*$/ to determine whether a tag is valid - I'm using ':-' but you could choose something else.  '::' seemed like a good idea for about 5 minutes until I started doing class filters, and at that point it broke.  Hard.  If this starts to look like a good idea, some other data might be better than a tag.
 
 You can set up debug and other stuff on the master by tuning #{puppet config directory}/mconotify.yaml: 
 
