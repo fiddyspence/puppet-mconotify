@@ -29,7 +29,7 @@ DESC
             matching_tags.each do |tag|
               notifystuff << tag unless notifystuff.member?(tag)
             end
-            Puppet.notice "MCONOTIFY #{self.name}: Added mconotify tag #{matching_tags}"
+            Puppet.notice "MCONOTIFY #{self.name}: Added mconotify tag #{matching_tags.join(',')}"
           end
         end
         Puppet.notice "MCONOTIFY #{self.name}: End of tag matching" if MCO_DEBUG
