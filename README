@@ -18,6 +18,7 @@ You can set up debug and other stuff on the master by tuning #{puppet config dir
 :mcoconfig: /tmp/client.cfg
 :mcotimeout: 5
 :debug: true
+:delimiter: --
 
 Prerequisites:
 
