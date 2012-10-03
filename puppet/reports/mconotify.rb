@@ -11,6 +11,7 @@ Puppet::Reports.register_report(:mconotify) do
   MCO_TIMEOUT = CONFIG[:mcotimeout] || 5
   MCO_DEBUG = CONFIG[:debug] || false
   MCO_COLLECTIVE = CONFIG[:collective] || nil
+  MCO_DELIMITER = CONFIG[:delimiter] || "  "
 
   desc <<-DESC
 Orchestrate puppet runs via mcollective on changed resources in classes, or on particular nodes
@@ -41,13 +42,13 @@ DESC
       classfilter=[]
 
       notifystuff.each do |filter|
-       if filter.to_s =~ /--node--/
+       if filter.to_s =~ /#{MCO_DELIMITER}node#{MCO_DELIMITER}/
           Puppet.notice "MCONOTIFY #{self.name}: matched #{filter} to a node" if MCO_DEBUG
-          nodefilter << "#{filter.to_s.split('--')[2]}" if MCO_DEBUG
+          nodefilter << "#{filter.to_s.split(MCO_DELIMITER)[2]}" if MCO_DEBUG
         end
-       if filter.to_s =~ /--class--/
+       if filter.to_s =~  /#{MCO_DELIMITER}class#{MCO_DELIMITER}/
           Puppet.notice "MCONOTIFY #{self.name}: matched #{filter} to a class" if MCO_DEBUG
-          classfilter << "#{filter.to_s.split('--')[2]}" if MCO_DEBUG
+          classfilter << "#{filter.to_s.split(MCO_DELIMITER)[2]}" if MCO_DEBUG
         end
       end
 
@@ -55,7 +56,7 @@ DESC
 
      if nodefilter.count > 0
 
-        Puppet.notice "MCONOTIFY #{self.name}: Doing an mco run for #{nodefilter}" if MCO_DEBUG
+        Puppet.notice "MCONOTIFY #{self.name}: Doing an mco run for #{nodefilter.join(',')}" if MCO_DEBUG
         thefilter="/#{nodefilter.join('|')}/"
         Puppet.notice "MCONOTIFY #{self.name}: #{thefilter}"
         svcs = MCollective::RPC::Client.new("puppetd", :configfile => MCO_CONFIG, :options => {:verbose=>false, :progress_bar=>false , :timeout=> MCO_TIMEOUT, :mcollective_limit_targets=>false, :config=> MCO_CONFIG, :filter=>{"cf_class"=>[], "agent"=>["puppetd"], "identity"=>[thefilter], "fact"=>factfilter}, :collective=>MCO_COLLECTIVE, :disctimeout=>2} )

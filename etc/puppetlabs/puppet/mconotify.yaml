@@ -2,3 +2,4 @@
 :mcoconfig: /tmp/client.cfg
 :mcotimeout: 5
 :debug: true
+:delimiter: --
