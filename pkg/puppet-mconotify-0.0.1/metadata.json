@@ -1,0 +1,23 @@
+{
+  "project_page": "https://github.com/fiddyspence/puppet-mconotify",
+  "author": "puppet",
+  "source": "UNKNOWN",
+  "checksums": {
+    "files/mconotify.yaml": "3ebb545c420334f9366b4590fe3d9067",
+    "LICENSE": "8f7bb094c7232b058c7e9f2e431f389c",
+    "README": "7582aee529fa82932b65bc4bd0d172ce",
+    "puppet/reports/mconotify.rb": "bd600ceea24abefbdf099720a9dc99e6",
+    "Modulefile": "b5ac15fbfb83710c7e8607ab88e2eaf8"
+  },
+  "license": "Apache 2.0",
+  "types": [
+
+  ],
+  "name": "puppet-mconotify",
+  "version": "0.0.1",
+  "dependencies": [
+
+  ],
+  "description": "UNKNOWN",
+  "summary": "A Puppet report handler for sending mcollective RPC messages"
+}
