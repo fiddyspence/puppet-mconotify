@@ -3,11 +3,11 @@
   "author": "puppet",
   "source": "UNKNOWN",
   "checksums": {
-    "files/mconotify.yaml": "3ebb545c420334f9366b4590fe3d9067",
-    "LICENSE": "8f7bb094c7232b058c7e9f2e431f389c",
+    "Modulefile": "b5ac15fbfb83710c7e8607ab88e2eaf8",
     "README": "7582aee529fa82932b65bc4bd0d172ce",
-    "puppet/reports/mconotify.rb": "bd600ceea24abefbdf099720a9dc99e6",
-    "Modulefile": "b5ac15fbfb83710c7e8607ab88e2eaf8"
+    "LICENSE": "8f7bb094c7232b058c7e9f2e431f389c",
+    "files/mconotify.yaml": "3ebb545c420334f9366b4590fe3d9067",
+    "lib/puppet/reports/mconotify.rb": "bd600ceea24abefbdf099720a9dc99e6"
   },
   "license": "Apache 2.0",
   "types": [
