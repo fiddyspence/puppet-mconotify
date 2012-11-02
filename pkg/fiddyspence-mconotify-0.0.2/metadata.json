@@ -3,12 +3,12 @@
   "author": "fiddyspence",
   "source": "UNKNOWN",
   "checksums": {
-    "LICENSE": "8f7bb094c7232b058c7e9f2e431f389c",
-    "Modulefile": "692d5e821e2b4df71bda67c8635e5cf0",
+    "Modulefile": "57649afcbd646460b5a845d38354df2d",
     "lib/facter/puppet_confdir.rb": "d8b745c44481b2a9b12ee486ed7de9f7",
-    "lib/puppet/reports/mconotify.rb": "bd600ceea24abefbdf099720a9dc99e6",
+    "LICENSE": "8f7bb094c7232b058c7e9f2e431f389c",
+    "README.md": "4853c848ae5a7037ed2d22803f9ef66c",
     "manifests/init.pp": "d2fd200e34ec01b6b8ea92ec7f42b5e3",
-    "README": "7582aee529fa82932b65bc4bd0d172ce",
+    "lib/puppet/reports/mconotify.rb": "ceabd9b5995a63f7348800ce2893e373",
     "files/mconotify.yaml": "3ebb545c420334f9366b4590fe3d9067"
   },
   "license": "Apache 2.0",
@@ -16,7 +16,7 @@
 
   ],
   "name": "fiddyspence-mconotify",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "dependencies": [
 
   ],

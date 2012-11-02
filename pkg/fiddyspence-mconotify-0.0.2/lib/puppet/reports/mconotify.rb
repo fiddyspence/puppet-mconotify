@@ -11,7 +11,7 @@ Puppet::Reports.register_report(:mconotify) do
   MCO_TIMEOUT = CONFIG[:mcotimeout] || 5
   MCO_DEBUG = CONFIG[:debug] || false
   MCO_COLLECTIVE = CONFIG[:collective] || nil
-  MCO_DELIMITER = CONFIG[:delimiter] || "  "
+  MCO_DELIMITER = CONFIG[:delimiter] || "--"
 
   desc <<-DESC
 Orchestrate puppet runs via mcollective on changed resources in classes, or on particular nodes
@@ -44,11 +44,11 @@ DESC
       notifystuff.each do |filter|
        if filter.to_s =~ /#{MCO_DELIMITER}node#{MCO_DELIMITER}/
           Puppet.notice "MCONOTIFY #{self.name}: matched #{filter} to a node" if MCO_DEBUG
-          nodefilter << "#{filter.to_s.split(MCO_DELIMITER)[2]}" if MCO_DEBUG
+          nodefilter << "#{filter.to_s.split(MCO_DELIMITER)[2]}"
         end
        if filter.to_s =~  /#{MCO_DELIMITER}class#{MCO_DELIMITER}/
           Puppet.notice "MCONOTIFY #{self.name}: matched #{filter} to a class" if MCO_DEBUG
-          classfilter << "#{filter.to_s.split(MCO_DELIMITER)[2]}" if MCO_DEBUG
+          classfilter << "#{filter.to_s.split(MCO_DELIMITER)[2]}"
         end
       end
 
