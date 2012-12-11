@@ -15,7 +15,7 @@ Puppet::Reports.register_report(:mconotify) do
   desc <<-DESC
 Orchestrate puppet runs via mcollective on changed resources in classes, or on particular nodes
 DESC
-
+# this is the guts of the thing
   def process
     notifystuff = []
     Puppet.notice "MCONOTIFY #{self.name}: CONFIG:#{CONFIG.inspect}" if MCO_DEBUG
