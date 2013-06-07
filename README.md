@@ -34,3 +34,8 @@ Pre-requisites:
 * An mcollective
 * An mcollective client.cfg for the user running Puppet to use to build the config
 * Some resources, classes and nodes
+
+
+Changelog:
+
+0.1.0: Updated to accomodate mcollective 2.x puppet agent
