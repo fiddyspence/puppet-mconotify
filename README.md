@@ -1,6 +1,6 @@
 mconotify - orchestrating your systems autodynamagically using a Puppet report processor
 
-This report processor uses tags on Puppet resource/class definitions to send mcollective RPC messages to nodes or classes of nodes to trigger configuration updates for dependent resource sets.
+This report processor uses tags on Puppet resource/class definitions to send mcollective RPC messages to nodes or classes of nodes to trigger configuration updates for dependent resource sets.  When a resource is appropriately tagged (using mconotify--(class|node)--class/nodename), the report processor will send the equivalent of an `mco puppet runonce -I thenode` or `mco puppet runonce -C theclass` (it uses the ruby classes to do this, rather than shelling out of course).
 
 Consider this resource definition:
 
@@ -38,4 +38,5 @@ Pre-requisites:
 
 Changelog:
 
-0.1.0: Updated to accomodate mcollective 2.x puppet agent
+    0.1.1: Update README.md for clarity
+    0.1.0: Updated to accomodate mcollective 2.x puppet agent
