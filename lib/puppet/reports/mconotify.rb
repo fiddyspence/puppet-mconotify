@@ -1,5 +1,5 @@
 require 'mcollective'
-
+require 'puppetdb/connection'
 Puppet::Reports.register_report(:mconotify) do
 
   configfile = File.join([File.dirname(Puppet.settings[:config]), "mconotify.yaml"])
@@ -20,6 +20,15 @@ DESC
   def process
     notifystuff = []
     Puppet.notice "MCONOTIFY #{self.name}: CONFIG:#{CONFIG.inspect}" if MCO_DEBUG
+    options = MCollective::Util.default_options
+    options[:config] = MCO_CONFIG
+    options[:verbose] = false
+    options[:progress_bar] = false
+    options[:process_results] = false
+    options[:mcollective_limit_targets] = false
+    options[:disctimeout] = 2
+    options[:timeout] = MCO_TIMEOUT
+    options[:collective] = MCO_COLLECTIVE
 
     if self.status == 'changed' 
       begin
@@ -60,12 +69,23 @@ DESC
         thefilter="/#{nodefilter.join('|')}/"
         Puppet.notice "MCONOTIFY #{self.name}: #{thefilter}"
         if MCollective.version.to_i == 1
-         svcs = MCollective::RPC::Client.new("puppetd", :configfile => MCO_CONFIG, :options => {:verbose=>false, :progress_bar=>false , :timeout=> MCO_TIMEOUT, :mcollective_limit_targets=>false, :config=> MCO_CONFIG, :filter=>{"cf_class"=>[], "agent"=>["puppetd"], "identity"=>[thefilter], "fact"=>factfilter}, :collective=>MCO_COLLECTIVE, :disctimeout=>2} )
+         svcs = MCollective::RPC::Client.new("puppetd", :configfile => MCO_CONFIG, :options => {:verbose=>false, :progress_bar=>false , :timeout=> MCO_TIMEOUT, :mcollective_limit_targets=>false, :config=> MCO_CONFIG, :filter=>{"cf_class"=>[], "agent"=>["puppetd"], "identity"=>thefilter, "fact"=>factfilter}, :collective=>MCO_COLLECTIVE, :disctimeout=>2} )
           svcs.runonce(:forcerun=> true, :process_results => false)
         else
-         Puppet.notice "MCONOTIFY #{self.name}: Mcollective version #{MCollective.version}"
-         svcs = MCollective::RPC::Client.new("puppet", :configfile => MCO_CONFIG, :options => {:verbose=>false, :progress_bar=>false , :timeout=> MCO_TIMEOUT, :mcollective_limit_targets=>false, :config=> MCO_CONFIG, :filter=>{"agent"=>["puppet"], "compound" => [], "identity_filter"=>[thefilter]}, :collective=>MCO_COLLECTIVE, :disctimeout=>2} )
-          svcs.runonce(:force=> true, :process_results => false)
+          Puppet.notice "MCONOTIFY #{self.name}: Mcollective version #{MCollective.version}"
+
+          nodefilter.each do |thenode|
+            Puppet.notice "MCONOTIFY #{self.name}: running for #{thenode}" if MCO_DEBUG
+            Puppet.notice "MCONOTIFY #{self.name}: #{options.inspect}" if MCO_DEBUG
+            begin
+              svcs = MCollective::RPC::Client.new("puppet", :options => options)
+            rescue
+              Puppet.notice "MCONOTIFY #{self.name}: went wrong on client creation #{e.message}" if MCO_DEBUG
+            end
+            svcs.identity_filter thenode
+            svcs.runonce(:force=> true, :process_results => false)
+            svcs = nil
+          end
 
         end
 
@@ -82,9 +102,17 @@ DESC
           svcs.runonce(:forcerun=> true, :process_results => false)
         else
           Puppet.notice "MCONOTIFY #{self.name}: Doing mco2" if MCO_DEBUG
-          svcs = MCollective::RPC::Client.new("puppet", :configfile => MCO_CONFIG, :options => {:verbose=>false, :progress_bar=>false , :timeout=> MCO_TIMEOUT, :mcollective_limit_targets=>false, :config=> MCO_CONFIG, :filter=>{"class_filter"=>[thefilter], "compound" => [], "agent"=>["puppet"]}, :collective=>MCO_COLLECTIVE, :disctimeout=>2} )
-          svcs.runonce(:force=> true, :process_results => false)
-
+          classfilter.each do |theclass|
+            Puppet.notice "MCONOTIFY #{self.name}: Triggering #{theclass}" if MCO_DEBUG
+            begin
+              svcs = MCollective::RPC::Client.new("puppet", :options => options)
+            rescue => e
+              Puppet.notice "MCONOTIFY #{self.name}: went wrong on client creation #{e.message}" if MCO_DEBUG
+            end
+            svcs.class_filter theclass
+            svcs.runonce(:force=> true, :process_results => false)
+            svcs = nil
+          end
         end
       end
     end
