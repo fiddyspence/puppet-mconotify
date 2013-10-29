@@ -1,5 +1,5 @@
 name 'fiddyspence-mconotify'
-version '0.2.0'
+version '0.2.1'
 license 'Apache 2.0'
 summary 'A Puppet report handler for sending mcollective RPC messages'
 project_page 'https://github.com/fiddyspence/puppet-mconotify'
