@@ -10,8 +10,9 @@ Puppet::Reports.register_report(:mconotify) do
   MCO_CONFIG = CONFIG[:mcoconfig] || '/etc/puppetlabs/mcollective/client.cfg'
   MCO_TIMEOUT = CONFIG[:mcotimeout] || 5
   MCO_DEBUG = CONFIG[:debug] || false
-  MCO_COLLECTIVE = CONFIG[:collective] || nil
+  MCO_COLLECTIVE = CONFIG[:collective] || 'mcollective'
   MCO_DELIMITER = CONFIG[:delimiter] || "--"
+  MCO_CLASSDELIMITER = CONFIG[:classdelimiter]
 
   desc <<-DESC
 Orchestrate puppet runs via mcollective on changed resources in classes, or on particular nodes
@@ -21,6 +22,7 @@ DESC
     notifystuff = []
     Puppet.notice "MCONOTIFY #{self.name}: CONFIG:#{CONFIG.inspect}" if MCO_DEBUG
     options = MCollective::Util.default_options
+    options[:agent] = 'puppet'
     options[:config] = MCO_CONFIG
     options[:verbose] = false
     options[:progress_bar] = false
@@ -36,9 +38,11 @@ DESC
           matching_tags=resource_status.tags.grep(/mconotify/) 
          if resource_status.changed and ! resource_status.failed and ! resource_status.skipped and ! matching_tags.empty?
             matching_tags.each do |tag|
-              notifystuff << tag unless notifystuff.member?(tag)
+              unless notifystuff.member?(tag)
+                notifystuff << tag unless notifystuff.member?(tag)
+                Puppet.notice "MCONOTIFY #{self.name}: Added mconotify tag #{matching_tags.join(',')}" if MCO_DEBUG
+              end
             end
-            Puppet.notice "MCONOTIFY #{self.name}: Added mconotify tag #{matching_tags.join(',')}"
           end
         end
         Puppet.notice "MCONOTIFY #{self.name}: End of tag matching" if MCO_DEBUG
@@ -57,7 +61,13 @@ DESC
         end
        if filter.to_s =~  /#{MCO_DELIMITER}class#{MCO_DELIMITER}/
           Puppet.notice "MCONOTIFY #{self.name}: matched #{filter} to a class" if MCO_DEBUG
-          classfilter << "#{filter.to_s.split(MCO_DELIMITER)[2]}"
+          if MCO_CLASSDELIMITER 
+            thisfilter = "#{filter.to_s.split(MCO_DELIMITER)[2].gsub(MCO_CLASSDELIMITER,'::')}"
+          else
+            thisfilter = "#{filter.to_s.split(MCO_DELIMITER)[2]}"
+          end
+          classfilter << thisfilter
+          
         end
       end
 

@@ -1,4 +1,5 @@
 ---
-:mcoconfig: /tmp/client.cfg
+:mcoconfig: /etc/puppetlabs/puppet/client.cfg
 :mcotimeout: 5
 :delimiter: --
+:debug: true
