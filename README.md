@@ -6,7 +6,7 @@ Consider this resource definition:
 
     file { '/tmp/testfile':
       ensure => file,
-      tag  => ['mconotify--class--theclass','mconotify--node--ibroketheinternet.co.uk'],
+      tag  => ['mconotify--class--theclass__fooclass','mconotify--node--ibroketheinternet.co.uk'],
       source => '/etc/passwd',
     }
 
@@ -16,10 +16,11 @@ You can set up debug and other stuff on the master by tuning
     "#{puppet_confdir}/mconotify.yaml": 
  
     ---
-    :mcoconfig: /tmp/client.cfg
+    :mcoconfig: /var/opt/lib/pe-puppet/.mcollective
     :mcotimeout: 5
     :debug: true
     :delimiter: --
+    :classdelimiter: __
 
 mconotify.yaml Variables
 * :mcoconfig - this variable should point at a mcollective config file to be loaded by the report processor with appropriate message queue credentials, collective information and mcollective security provider configuration (default: /etc/puppetlabs/mcollective/client.cfg)
@@ -28,6 +29,7 @@ mconotify.yaml Variables
 Prerequisites:
 * :collective - this variable determines which collective will be addressed (default: nil)
 * :delimiter - this variable customises the delimiter used when splitting the tag(default: '--')
+* :classdelimiter - this variable customises the delimiter used when splitting class namespaces (no default)
 
 Pre-requisites: 
 
