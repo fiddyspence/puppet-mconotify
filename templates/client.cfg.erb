@@ -3,13 +3,13 @@ topicprefix     = /topic/
 main_collective = mcollective
 collectives     = mcollective
 libdir          = /opt/puppet/libexec/mcollective/
-logfile         = /etc/puppetlabs/mconotify/client.log
+logfile         = <%= @mco_vardir %>/client.log
 loglevel        = info
 
 securityprovider = ssl
-plugin.ssl_client_private = /etc/puppetlabs/mconotify/peadmin-private.pem
-plugin.ssl_client_public = /etc/puppetlabs/mconotify/peadmin-public.pem
-plugin.ssl_server_public = /etc/puppetlabs/mconotify/mcollective-public.pem
+plugin.ssl_client_private = <%= @mco_vardir %>/mconotify-private.pem
+plugin.ssl_client_public = <%= @mco_vardir %>/mconotify-public.pem
+plugin.ssl_server_public = <%= @mco_vardir %>/mcollective-public.pem
 plugin.ssl_serializer     = yaml
 
 connector = activemq
@@ -19,9 +19,9 @@ plugin.activemq.pool.1.port = 61613
 plugin.activemq.pool.1.user = mcollective
 plugin.activemq.pool.1.password = <%= File.read('/etc/puppetlabs/mcollective/credentials') %>
 plugin.activemq.pool.1.ssl = true
-plugin.activemq.pool.1.ssl.ca = /etc/puppetlabs/mconotify/peadmin-cacert.pem
-plugin.activemq.pool.1.ssl.key = /etc/puppetlabs/mconotify/peadmin-private.pem
-plugin.activemq.pool.1.ssl.cert = /etc/puppetlabs/mconotify/peadmin-cert.pem
+plugin.activemq.pool.1.ssl.ca = <%= @mco_vardir %>/mconotify-cacert.pem
+plugin.activemq.pool.1.ssl.key = <%= @mco_vardir %>/mconotify-private.pem
+plugin.activemq.pool.1.ssl.cert = <%= @mco_vardir %>/mconotify-cert.pem
 
 # Facts
 factsource = yaml

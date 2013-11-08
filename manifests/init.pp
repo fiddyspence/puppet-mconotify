@@ -1,11 +1,17 @@
 class mconotify (
   $mco_clientcfg = '/var/opt/lib/pe-puppet/.mcollective',
+  $mco_vardir = '/etc/puppetlabs/mconotify',
   $mco_timeout = 5,
   $mco_debug = 'false',
   $mco_delimiter = '--',
   $mco_classdelimiter = '__',
   $configfromtemplate = 'false',
-){
+  $private_key = '/etc/puppetlabs/puppet/ssl/private_keys/pe-internal-peadmin-mcollective-client.pem',
+  $public_key = '/etc/puppetlabs/puppet/ssl/public_keys/pe-internal-peadmin-mcollective-client.pem',
+  $mco_public_key = '/etc/puppetlabs/puppet/ssl/public_keys/pe-internal-mcollective-servers.pem',
+  $cert = '/etc/puppetlabs/puppet/ssl/certs/pe-internal-peadmin-mcollective-client.pem',
+  $cacert = '/etc/puppetlabs/puppet/ssl/certs/ca.pem',
+) {
 
   $template = str2bool($configfromtemplate)
 
@@ -31,40 +37,40 @@ class mconotify (
     group   => 'pe-puppet',
   }
 
-  file { '/etc/puppetlabs/mconotify':
+  file { $mco_vardir:
     ensure => directory,
   }
-  file { '/etc/puppetlabs/mconotify/peadmin-private.pem':
+  file { "${mco_vardir}/mconotify-private.pem":
     ensure => file,
-    source => '/etc/puppetlabs/puppet/ssl/private_keys/pe-internal-peadmin-mcollective-client.pem',
+    source => $mconotify::private_key,
     owner  => 'pe-puppet',
     group  => 'pe-puppet',
     mode   => '0600',
   }
-  file { '/etc/puppetlabs/mconotify/peadmin-public.pem':
+  file { "${mco_vardir}/mconotify-public.pem":
     ensure => file,
-    source => '/etc/puppetlabs/puppet/ssl/public_keys/pe-internal-peadmin-mcollective-client.pem',
+    source => $mconotify::public_key,
     owner  => 'pe-puppet',
     group  => 'pe-puppet',
     mode   => '0600',
   }
-  file { '/etc/puppetlabs/mconotify/mcollective-public.pem':
+  file { "${mco_vardir}/mcollective-public.pem":
     ensure => file,
-    source => '/etc/puppetlabs/puppet/ssl/public_keys/pe-internal-mcollective-servers.pem',
+    source => $mconotify::mco_public_key,
     owner  => 'pe-puppet',
     group  => 'pe-puppet',
     mode   => '0600',
   }
-  file { '/etc/puppetlabs/mconotify/peadmin-cacert.pem':
+  file { "${mco_vardir}/mconotify-cacert.pem":
     ensure => file,
-    source => '/etc/puppetlabs/puppet/ssl/certs/ca.pem',
+    source => $mconotify::cacert,
     owner  => 'pe-puppet',
     group  => 'pe-puppet',
     mode   => '0600',
   }
-  file { '/etc/puppetlabs/mconotify/peadmin-cert.pem':
+  file { "${mco_vardir}/mconotify-cert.pem":
     ensure => file,
-    source => '/etc/puppetlabs/puppet/ssl/certs/pe-internal-peadmin-mcollective-client.pem',
+    source => $mconotify::cert,
     owner  => 'pe-puppet',
     group  => 'pe-puppet',
     mode   => '0600',
