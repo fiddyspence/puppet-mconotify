@@ -12,7 +12,7 @@ Consider this resource definition:
 
 When processing the agent report on the Puppet master, the mconotify report code will examine the tags on each resource in the report.  If the report has the status 'changed' and a resource that is appropriately tagged in the report (i.e. with 'mconotify--something--somethingelse') has also changed, then a mco client with appropriate filters will be built and a message sent to the collective.
 
-The mconotify class will do most of the set up for you on PE by copying the peadmin user certs, but you still need to push a public key out for the application.  Something like:
+The mconotify class will do most of the set up for you on a PE master by copying the peadmin user certs, but you still need to push a public key out for the application.  Something like:
 
     file { '/etc/puppetlabs/mcollective/ssl/clients/mconotify-public.pem':
       ensure  => file,
