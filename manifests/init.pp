@@ -3,6 +3,7 @@ class mconotify (
   $mco_timeout = 5,
   $mco_debug = 'false',
   $mco_delimiter = '--',
+  $mco_classdelimiter = '__',
   $configfromtemplate = 'false',
 ){
 
