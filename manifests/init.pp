@@ -11,6 +11,8 @@ class mconotify (
   $mco_public_key = '/etc/puppetlabs/puppet/ssl/public_keys/pe-internal-mcollective-servers.pem',
   $cert = '/etc/puppetlabs/puppet/ssl/certs/pe-internal-peadmin-mcollective-client.pem',
   $cacert = '/etc/puppetlabs/puppet/ssl/certs/ca.pem',
+  $mco_libdir = '/opt/puppetlabs/libexec/mcollective',
+  $mco_passwordfile = '/etc/puppetlabs/mcollective/credentials',
 ) {
 
   $template = str2bool($configfromtemplate)

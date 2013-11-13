@@ -1,8 +1,7 @@
-# This file managed by Puppet 3.3.1 (Puppet Enterprise 3.1.0)
 topicprefix     = /topic/
 main_collective = mcollective
 collectives     = mcollective
-libdir          = /opt/puppet/libexec/mcollective/
+libdir          = <%= @mco_libdir %>
 logfile         = <%= @mco_vardir %>/client.log
 loglevel        = info
 
@@ -17,7 +16,7 @@ plugin.activemq.pool.size = 1
 plugin.activemq.pool.1.host = master
 plugin.activemq.pool.1.port = 61613
 plugin.activemq.pool.1.user = mcollective
-plugin.activemq.pool.1.password = <%= File.read('/etc/puppetlabs/mcollective/credentials') %>
+plugin.activemq.pool.1.password = <%= @mco_passwordfile %>
 plugin.activemq.pool.1.ssl = true
 plugin.activemq.pool.1.ssl.ca = <%= @mco_vardir %>/mconotify-cacert.pem
 plugin.activemq.pool.1.ssl.key = <%= @mco_vardir %>/mconotify-private.pem
