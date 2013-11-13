@@ -13,7 +13,7 @@ plugin.ssl_serializer     = yaml
 
 connector = activemq
 plugin.activemq.pool.size = 1
-plugin.activemq.pool.1.host = master
+plugin.activemq.pool.1.host = <%= @mco_server %>
 plugin.activemq.pool.1.port = 61613
 plugin.activemq.pool.1.user = mcollective
 plugin.activemq.pool.1.password = <%= @mco_passwordfile %>
