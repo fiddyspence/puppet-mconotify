@@ -89,7 +89,7 @@ DESC
             Puppet.notice "MCONOTIFY #{self.name}: #{options.inspect}" if MCO_DEBUG
             begin
               svcs = MCollective::RPC::Client.new("puppet", :options => options)
-            rescue
+            rescue => e
               Puppet.notice "MCONOTIFY #{self.name}: went wrong on client creation #{e.message}" if MCO_DEBUG
             end
             svcs.identity_filter thenode
