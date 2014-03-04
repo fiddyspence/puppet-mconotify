@@ -1,5 +1,5 @@
 require 'mcollective'
-require 'puppetdb/connection'
+#require 'puppetdb/connection'
 Puppet::Reports.register_report(:mconotify) do
 
   configfile = File.join([File.dirname(Puppet.settings[:config]), "mconotify.yaml"])
